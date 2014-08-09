@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="Archivo fuente para C">
+<includepath workspace_path="true">/${ProjName}/libs/CMSIS</includepath>
+<includepath workspace_path="true">/${ProjName}/bsp/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/STM32F4xx_StdPeriph_Driver/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/STM32F4-Discovery/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/config</includepath>
+<includepath workspace_path="true">/${ProjName}/tasks/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/</includepath>
+<includepath workspace_path="true">/${ProjName}/FreeRTOS/inc</includepath>
+
+</language>
+<language name="Object File">
+
+</language>
+<language name="Archivo fuente para Emsamblador">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="Archivo fuente para C">
+<macro>
+<name>USE_STDPERIPH_DRIVER</name><value/>
+</macro>
+
+</language>
+<language name="Object File">
+
+</language>
+<language name="Archivo fuente para Emsamblador">
+
+</language>
+</section>
+</cdtprojectproperties>
