@@ -11,11 +11,12 @@ void task_ledsButton(void* args){
 	bsp_ledsButton_init();
 
 	semaphore = xSemaphoreCreateBinary();
+	xSemaphoreGive(semaphore);
 
 	while(1){
 		configASSERT(xSemaphoreTake(semaphore, portMAX_DELAY));
 
-		STM_EVAL_LEDToggle(LED3);
+		//STM_EVAL_LEDToggle(LED3);
 		STM_EVAL_LEDToggle(LED4);
 		STM_EVAL_LEDToggle(LED5);
 	}
@@ -24,6 +25,7 @@ void task_ledsButton(void* args){
 //Interrupt handler
 void ISR_ledsButton(){
 	BaseType_t higherPriorityTaskWoken;
-	configASSERT(xSemaphoreGiveFromISR(semaphore, &higherPriorityTaskWoken));
+	//configASSERT(xSemaphoreGiveFromISR(semaphore, &higherPriorityTaskWoken));
+	xSemaphoreGiveFromISR(semaphore, &higherPriorityTaskWoken);
 	portEND_SWITCHING_ISR(higherPriorityTaskWoken);
 }
