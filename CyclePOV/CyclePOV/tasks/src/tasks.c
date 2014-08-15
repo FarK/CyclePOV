@@ -24,7 +24,7 @@ void createTasks(){
 		"button",
 		configMINIMAL_STACK_SIZE,
 		NULL,
-		tskIDLE_PRIORITY + 1,
+		tskIDLE_PRIORITY+1,
 		(TaskHandle_t*)NULL
 	));
 
