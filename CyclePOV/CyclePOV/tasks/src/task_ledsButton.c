@@ -5,6 +5,8 @@
 #include "stm32f4_discovery.h"
 #include "portmacro.h"
 
+#include "doubleBuffer.h"
+
 SemaphoreHandle_t semaphore;
 
 void task_ledsButton(void* args){
@@ -27,5 +29,8 @@ void ISR_ledsButton(){
 	BaseType_t higherPriorityTaskWoken;
 	//configASSERT(xSemaphoreGiveFromISR(semaphore, &higherPriorityTaskWoken));
 	xSemaphoreGiveFromISR(semaphore, &higherPriorityTaskWoken);
+
+	DB_getBMPToRead();
+
 	portEND_SWITCHING_ISR(higherPriorityTaskWoken);
 }

@@ -1,37 +1,25 @@
 #include "task_loader.h"
-#include "bsp_loader.h"
 #include "FreeRTOSIncludes.h"
 #include "bmp.h"
 
-#include "defines.h"
-#include "stm32f4_discovery.h"
-
-FATFS fatFs;
-FIL file;
-BMP bmp;
-BMP bmp2;
+#include "doubleBuffer.h"
 
 void task_loader(void* args){
-	BMPError error;
-	float time = TICKS_TO_MS(xTaskGetTickCount());
+	FATFS fatFs;
+	FIL file;
 
-	bsp_loader_init();
-
+	DB_init();
 	while(f_mount(&fatFs, "", 1) != FR_OK);
 
-	CHECK_ERROR(f_open(&file, "vane.bmp", FA_READ) != FR_OK);
-	error = bmp_load(&file, &bmp);
-	CHECK_ERROR(error);
-	f_close(&file);
+	while(1){
+		BMPError error;
+		BMP* bmp;
 
-	time = TICKS_TO_MS(xTaskGetTickCount()) - time;
+		bmp = DB_getBMPToWrite();
 
-	CHECK_ERROR(f_open(&file, "vane.bmp", FA_READ) != FR_OK);
-	error = bmp_load(&file, &bmp2);
-	CHECK_ERROR(error);
-	f_close(&file);
-
-	STM_EVAL_LEDOn(LED3);
-
-	while(1);
+		CHECK_ERROR(f_open(&file, "vane.bmp", FA_READ) != FR_OK);
+		error = bmp_load(&file, bmp);
+		CHECK_ERROR(error);
+		f_close(&file);
+	}
 }
