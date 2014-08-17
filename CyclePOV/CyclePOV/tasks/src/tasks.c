@@ -41,7 +41,7 @@ void createTasks(){
 	configASSERT(xTaskCreate(
 		task_loader,
 		"loader",
-		1024*1,
+		1024*2,
 		NULL,
 		tskIDLE_PRIORITY+1,
 		(TaskHandle_t*)NULL
