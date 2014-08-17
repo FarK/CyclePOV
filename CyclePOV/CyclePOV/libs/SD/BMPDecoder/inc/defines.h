@@ -6,7 +6,6 @@
 #include "ff.h"
 
 #define DEBUG_LOG	0
-#define BIG_ENDIAN	0
 
 #define BMP_MAX_WIDTH	128
 #define BMP_MAX_HEIGHT	128
