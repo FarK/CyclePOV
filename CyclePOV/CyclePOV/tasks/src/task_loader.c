@@ -37,7 +37,7 @@ void task_loader(void* args){
 		CHECK_ERROR(error);
 		f_close(&file);
 
-		incrementFrame(frameToLoad);
+		frameToLoad = incrementedFrame(frameToLoad);
 	}
 }
 
@@ -46,7 +46,7 @@ BMP* getNextFrame(){
 
 	if(animation.timesCount >= animation.currentFrame->times){
 		animation.currentBMP = DB_getBMPToRead();
-		incrementFrame(animation.currentFrame);
+		animation.currentFrame = incrementedFrame(animation.currentFrame);
 		animation.timesCount = 0;
 	}
 

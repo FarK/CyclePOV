@@ -21,6 +21,6 @@ typedef struct{
 
 extern BMP_Animation animation;
 
-void incrementFrame(BMP_Frame* frame);
+BMP_Frame* incrementedFrame(BMP_Frame* frame);
 
 #endif /* ANIMATION_H_ */
