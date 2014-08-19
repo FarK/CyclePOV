@@ -58,7 +58,8 @@ int readLine(FIL* file, TCHAR* line){
 	while(read > 0 && character != EOL){
 		ASSERT(i < MAX_LINE_LENGTH - 1);
 		line[i++] = character;
-		CHECK_ERROR(f_read(file, &character, sizeof(character), &read));
+		FRESULT res = f_read(file, &character, sizeof(character), &read);
+		CHECK_ERROR(res);
 	}
 
 	//Set end of string
