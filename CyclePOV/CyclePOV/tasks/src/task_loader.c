@@ -42,13 +42,13 @@ void task_loader(void* args){
 }
 
 BMP* getNextFrame(){
+	++animation.timesCount;
+
 	if(animation.timesCount >= animation.currentFrame->times){
 		animation.currentBMP = DB_getBMPToRead();
 		incrementFrame(animation.currentFrame);
 		animation.timesCount = 0;
 	}
-
-	++animation.timesCount;
 
 	return animation.currentBMP;
 }
