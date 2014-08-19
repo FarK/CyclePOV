@@ -10,6 +10,9 @@
 <includepath workspace_path="true">/${ProjName}/tasks/inc</includepath>
 <includepath workspace_path="true">/${ProjName}/</includepath>
 <includepath workspace_path="true">/${ProjName}/FreeRTOS/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/SD/FatFs/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/SD/TM/inc</includepath>
+<includepath workspace_path="true">/${ProjName}/libs/SD/BMPDecoder/inc</includepath>
 
 </language>
 <language name="Object File">
