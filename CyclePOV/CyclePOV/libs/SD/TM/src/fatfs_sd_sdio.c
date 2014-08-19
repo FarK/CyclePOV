@@ -308,12 +308,11 @@ DSTATUS TM_FATFS_SD_SDIO_disk_initialize(void) {
 	// Configure the NVIC Preemption Priority Bits 
 	//NVIC_PriorityGroupConfig (NVIC_PriorityGroup_1);	//Hay que quitarlo para usar FreeRTOS
 	NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = SDIO_IRQ_PRIORITY;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init (&NVIC_InitStructure);
 	NVIC_InitStructure.NVIC_IRQChannel = SD_SDIO_DMA_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = SDIO_DMA_IRQ_PRIORITY;
 	NVIC_Init (&NVIC_InitStructure);
 	
 	SD_LowLevel_DeInit();
