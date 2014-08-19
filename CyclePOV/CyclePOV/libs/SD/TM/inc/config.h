@@ -19,4 +19,13 @@
  */
 #define SDIO_IRQ_PRIORITY		0xA
 #define SDIO_DMA_IRQ_PRIORITY	0xB
+
+/* Set higher velocity for transmissions
+ * (I've tried with 24MHz, but it didn't work)
+ *
+ * SDIO_CK = SDIOCLK / (SDIO_TRANSFER_CLK_DIV + 2)
+ * SDIOCLK = 48MHz (fixed)
+ */
+#define SDIO_TRANSFER_CLK_DIV         ((uint8_t)1)
+
 #endif /* CONFIG_H_ */

@@ -39,12 +39,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_gpio.h"
-//#include "defines.h"
 #include "config.h"
-
-/*#include "tm_stm32f4_spi.h"
-#include "tm_stm32f4_usart.h"
-#include "tm_stm32f4_delay.h"*/
 
 #ifndef FATFS_USE_DETECT_PIN
 #define FATFS_USE_DETECT_PIN				0
@@ -378,7 +373,9 @@ typedef struct {
  * @brief  SDIO Data Transfer Frequency (25MHz max)
  */
 //#define SDIO_TRANSFER_CLK_DIV         ((uint8_t)0x0)
+#ifndef SDIO_TRANSFER_CLK_DIV
 #define SDIO_TRANSFER_CLK_DIV         ((uint8_t)0x76)
+#endif
 
 #define SD_SDIO_DMA						DMA2
 #define SD_SDIO_DMA_CLK					RCC_AHB1Periph_DMA2
