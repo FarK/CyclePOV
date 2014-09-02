@@ -5,6 +5,8 @@
 #include "parser.h"
 #include "animation.h"
 
+SemaphoreHandle_t endLoaderInitSemph;
+
 void task_loader(void* args){
 	FATFS fatFs;
 	FIL file;
@@ -19,6 +21,10 @@ void task_loader(void* args){
 	frameToLoad = &animation.frames[0];
 	animation.timesCount = 0;
 	animation.currentFrame->times = 0;	//Force DB_getBMPToRead() on init in getNextFrame()
+
+	//End of init. LedsStripe can continue now
+	BaseType_t error = xSemaphoreGive(endLoaderInitSemph);
+	ASSERT(error);
 
 	//Mount SD
 	while(f_mount(&fatFs, "", 1) != FR_OK);

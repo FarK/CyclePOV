@@ -7,24 +7,36 @@
 //Tasks includes
 #include "task_idle.h"
 #include "task_loader.h"
+#include "task_ledsStripes.h"
 
 void createTasks(){
+	//Semaphore for wait loader initialization
+	endLoaderInitSemph = xSemaphoreCreateBinary();
 
 	configASSERT(xTaskCreate(
 		task_idle,
 		"idle",
-		configMINIMAL_STACK_SIZE,
+		IDLE_STACK_SIZE,
 		NULL,
-		tskIDLE_PRIORITY,
+		IDLE_PRIORITY,
 		(TaskHandle_t*)NULL
 	));
 
 	configASSERT(xTaskCreate(
 		task_loader,
 		"loader",
-		1024*2,
+		LOADER_STACK_SIZE,
 		NULL,
-		tskIDLE_PRIORITY+1,
+		LOADER_PRIORITY,
+		(TaskHandle_t*)NULL
+	));
+
+	configASSERT(xTaskCreate(
+		task_ledsStripes,
+		"ledsStripes",
+		LEDS_STRIPE_STACK_SIZE,
+		NULL,
+		LEDS_STRIPE_PRIORITY,
 		(TaskHandle_t*)NULL
 	));
 }
