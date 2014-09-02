@@ -124,5 +124,7 @@ BMPError bmp_load_pixels(BMP_FILE* file, BMP* bmp){
 BYTE* bmp_getPixel(SIZE x, SIZE y, BMP* bmp){
 	//TODO: Implementar tamaños negativos
 	SIZE delta = x*bmp->arrayInfo.bytesPerPixel + bmp->arrayInfo.rowBytes*y;
-	return ((BYTE*)&bmp->pixels[0]) + delta;
+	BYTE* pixel = &bmp->pixels[0][0][0];
+	pixel += delta;
+	return pixel;
 }
