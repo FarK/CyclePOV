@@ -10,8 +10,15 @@ void task_loader(void* args){
 	FIL file;
 	BMP_Frame* frameToLoad;
 
-	//Init double buffer
+	//Init double buffer and animation
+	animation.timesCount = 0;
+	animation.timesCount = 0;
 	DB_init();
+	animation.currentFrame = &animation.frames[0];
+	animation.currentBMP = doubleBuffer.toRead;
+	frameToLoad = &animation.frames[0];
+	animation.timesCount = 0;
+	animation.currentFrame->times = 0;	//Force DB_getBMPToRead() on init in getNextFrame()
 
 	//Mount SD
 	while(f_mount(&fatFs, "", 1) != FR_OK);
@@ -19,11 +26,7 @@ void task_loader(void* args){
 	//Init animation index
 	CHECK_ERROR(f_open(&file, INDEX_FILE, FA_READ) != FR_OK);
 	parseIndex(&file);
-	animation.currentFrame = &animation.frames[0];
-	animation.currentBMP = doubleBuffer.toRead;
-	DB_SWAP(doubleBuffer.toRead);
-	animation.timesCount = 0;
-	frameToLoad = &animation.frames[0];
+
 
 	//Task start
 	while(1){
