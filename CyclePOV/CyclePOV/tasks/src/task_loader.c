@@ -38,6 +38,8 @@ void task_loader(void* args){
 		f_close(&file);
 
 		frameToLoad = incrementedFrame(frameToLoad);
+
+		DB_releaseBMPToRead();
 	}
 }
 

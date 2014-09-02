@@ -25,10 +25,14 @@ BMP* DB_getBMPToWrite(){
 	BMP* bmp;
 
 	ASSERT(xSemaphoreTake(doubleBuffer.writeSemph, portMAX_DELAY));
-	ASSERT(xSemaphoreGive(doubleBuffer.readSemph));
 
 	bmp = doubleBuffer.toWrite;
 	DB_SWAP(doubleBuffer.toWrite);
 
 	return bmp;
+}
+
+/* Release the buffer */
+void DB_releaseBMPToRead(){
+	ASSERT(xSemaphoreGive(doubleBuffer.readSemph));
 }

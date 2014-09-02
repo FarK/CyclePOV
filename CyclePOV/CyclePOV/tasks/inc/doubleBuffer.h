@@ -18,6 +18,7 @@ extern DoubleBuffer doubleBuffer;
 void DB_init();
 BMP* DB_getBMPToRead();
 BMP* DB_getBMPToWrite();
+void DB_releaseBMPToRead();
 
 #define DB_SWAP(pointer)\
 	if((pointer) == &(doubleBuffer.bmp1)){\
