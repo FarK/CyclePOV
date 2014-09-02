@@ -9,6 +9,10 @@ void DB_init(){
 	doubleBuffer.toRead = &doubleBuffer.bmp1;
 }
 
+/*
+ * It blocks until a read buffer is available.
+ * Then reserves the read buffer, and release a write buffer.
+ */
 BMP* DB_getBMPToRead(){
 	BMP* bmp;
 
@@ -21,6 +25,11 @@ BMP* DB_getBMPToRead(){
 	return bmp;
 }
 
+/*
+ * It blocks until a buffer is available, and then reserves the buffer.
+ * After you finish working with the buffer,
+ * you must call DB_releaseBMPToRead() function.
+ */
 BMP* DB_getBMPToWrite(){
 	BMP* bmp;
 
