@@ -5,7 +5,7 @@
 #include "processor.h"
 #include "bikeInfo.h"
 #include "defines.h"
-#include "bsp_timer.h"
+#include "bsp_sensor.h"
 #include "bsp_ledsStripes.h"
 #include "bsp_leds.h"
 #include <tgmath.h>
