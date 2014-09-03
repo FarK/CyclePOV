@@ -1,4 +1,4 @@
-#include "bsp_timer.h"
+#include "bsp_sensor.h"
 
 #include "bikeInfo.h"
 #include <tgmath.h>
@@ -7,7 +7,7 @@
 #define TIMER_FREQ 160e6
 #define TIM_TICKS_TO_US(ticks) (ticks*(10e3/TIMER_FREQ))
 
-void bsp_timer_init(){
+void bsp_sensor_init(){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 	TIM_ICInitTypeDef TIM_ICInitStructure;
@@ -66,7 +66,7 @@ void TIM2_IRQHandler(){
 	}
 }
 
-float bsp_timer_getAngle(){
+float bsp_sensor_getAngle(){
 	float time = TIM_TICKS_TO_US(TIM_GetCounter(TIM2));
 	return time/bikeInfo.period * 2.0*M_PI;
 }

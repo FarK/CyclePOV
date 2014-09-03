@@ -1,7 +1,7 @@
-#ifndef BSP_TIMER_H_
-#define BSP_TIMER_H_
+#ifndef BSP_SENSOR_H_
+#define BSP_SENSOR_H_
 
-void bsp_timer_init();
-float bsp_timer_getAngle();
+void bsp_sensor_init();
+float bsp_sensor_getAngle();
 
-#endif /* BSP_TIMER_H_ */
+#endif /* BSP_SENSOR_H_ */

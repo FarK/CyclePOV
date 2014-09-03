@@ -30,7 +30,7 @@ void task_ledsStripes(void* args){
 	txCompleteSemph = xSemaphoreCreateBinary();
 
 	bikeInfo_init();	//Setup bike info first
-	bsp_timer_init();
+	bsp_sensor_init();
 	bsp_ledsStripes_init();
 	turnOffStripes();
 
@@ -67,7 +67,7 @@ void displayAnimation(){
 	//Process and send all frame stripes
 	while(angle > previusAngle){
 		previusAngle = angle;
-		angle = bsp_timer_getAngle();
+		angle = bsp_sensor_getAngle();
 
 		//Checks if wheel is stopped
 		if(angle > MAX_ANGLE){
