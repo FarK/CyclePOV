@@ -29,7 +29,7 @@ typedef struct{
 	float stripeLength;
 	uint16_t numLeds;
 
-	float period;
+	uint32_t period;
 	float velocity;
 
 	Stripes stripes;

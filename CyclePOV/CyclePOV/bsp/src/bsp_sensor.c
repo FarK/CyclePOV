@@ -4,9 +4,6 @@
 #include <tgmath.h>
 #include "stm32f4xx_tim.h"
 
-#define TIMER_FREQ 160e6
-#define TIM_TICKS_TO_US(ticks) (ticks*(10e3/TIMER_FREQ))
-
 void bsp_sensor_init(){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
@@ -60,13 +57,11 @@ void TIM2_IRQHandler(){
 		TIM_SetCounter(TIM2, 0);
 		TIM_Cmd(TIM2, ENABLE);
 
-		//Refresh info
-		bikeInfo.period = TIM_TICKS_TO_US(ticks);
-		bikeInfo.velocity = 36000.0/bikeInfo.period * bikeInfo.wheelRadius * 2.0*M_PI;
+		bikeInfo.period = ticks;
 	}
 }
 
 float bsp_sensor_getAngle(){
-	float time = TIM_TICKS_TO_US(TIM_GetCounter(TIM2));
-	return time/bikeInfo.period * 2.0*M_PI;
+	float time = TIM_GetCounter(TIM2);
+	return (float)(time)/(float)(bikeInfo.period) * 2.0*M_PI;
 }

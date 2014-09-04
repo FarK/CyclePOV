@@ -1,7 +1,7 @@
 #include "bikeInfo.h"
 
 #include <tgmath.h>
-#include <float.h>
+#include <stdint.h>
 #define PI M_PI
 
 BikeInfo bikeInfo;
@@ -38,7 +38,7 @@ void bikeInfo_init(){
 	bikeInfo.stripes.stripes[7].angle = 5*PI/4.0;
 	bikeInfo.stripes.stripes[7].numLeds = 14;
 
-	bikeInfo.period = FLT_MAX; //Avoids division by 0
+	bikeInfo.period = UINT32_MAX; //Avoids division by 0
 
 	//Calculate number of LEDs
 	unsigned int s;

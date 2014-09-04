@@ -9,8 +9,7 @@
 #include "bsp_timer.h"
 #include "bsp_ledsStripes.h"
 #include "bsp_leds.h"
-#include <tgmath.h>
-#include <float.h>
+#include <stdint.h>
 
 #define MIN_PERIOD	10e3
 #define MAX_ANGLE	2.0*M_PI*1.2
@@ -81,7 +80,7 @@ void displayAnimation(){
 
 		//Checks if wheel is stopped
 		if(angle > MAX_ANGLE){
-			bikeInfo.period = FLT_MAX;	//The period is infinite
+			bikeInfo.period = UINT32_MAX;	//The period is infinite
 			break;
 		}
 		else{
