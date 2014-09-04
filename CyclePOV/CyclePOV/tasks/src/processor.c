@@ -12,11 +12,8 @@
 #define PX_PER_LED(numLeds)										_PX_PER_LED(bikeInfo.stripeLength, imgSize, numLeds, bikeInfo.wheelRadius)
 
 
-#define MAX_MASK_SIZE	((unsigned int)(_PX_PER_LED(MAX_STRIPE_LENGTH, BMP_MAX_WIDTH, MIN_NUM_LEDS, MAX_WHEEL_RADIUS) + 1))
-
 typedef struct{
-	float kernel[MAX_MASK_SIZE][MAX_MASK_SIZE];
-	float norm;
+	uint32_t norm;
 	uint8_t size;
 	uint8_t center;
 }Mask;
@@ -77,25 +74,20 @@ void processConfig(BMP* bmp){
 }
 
 void setMask(BMP* bmp, float pixelsPerLED){
+	//Set odd size
 	mask.size = pixelsPerLED;
 	mask.size += mask.size%2? 0 : 1;
+
 	mask.center = mask.size/2;
-
-	//Create kernel
-	int i,j;
-	for(i=0 ; i<mask.size ; ++i)
-		for(j=0 ; j<mask.size ; ++j)
-			mask.kernel[i][j] = 1.0;
-
 	mask.norm = mask.size*mask.size;
 }
 
 void convolution(DWORD cx, DWORD cy, LED* led, BMP* bmp){
-	float res = 0;
 	DWORD i,j;
 	DWORD_S px,py;
 	DWORD_S Width = bmp->arrayInfo.Width;
 	DWORD_S Height = bmp->arrayInfo.Height;
+	BYTE* bmpPixel;
 	uint32_t auxLED[3] = {0,0,0};
 
 	//Difference between image center and mask center
@@ -113,10 +105,11 @@ void convolution(DWORD cx, DWORD cy, LED* led, BMP* bmp){
 			if(py >= Height) py = (Height-1) - (py-Height);
 			else if(py < 0)  py = -py;
 
-			//Apply mask
-			auxLED[0] += (uint32_t)(mask.kernel[i][j]*(float)((bmp_getPixel(px, py, bmp))[0]));
-			auxLED[1] += (uint32_t)(mask.kernel[i][j]*(float)((bmp_getPixel(px, py, bmp))[1]));
-			auxLED[2] += (uint32_t)(mask.kernel[i][j]*(float)((bmp_getPixel(px, py, bmp))[2]));
+			//Accumulates values
+			bmpPixel = bmp_getPixel(px, py, bmp);
+			auxLED[0] += bmpPixel[0];
+			auxLED[1] += bmpPixel[1];
+			auxLED[2] += bmpPixel[2];
 		}
 	}
 
