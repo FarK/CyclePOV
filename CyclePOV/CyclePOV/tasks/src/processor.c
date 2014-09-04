@@ -6,11 +6,6 @@
 
 #define PI2 (2.0*M_PI)
 
-#define _CM_TO_PX(cm,imgSize, wheelRadius)						cm*((((float)(imgSize))/(2.0*wheelRadius)))
-#define _PX_PER_LED(stripeLength, imgSize, numLeds,wheelRadius)	(_CM_TO_PX(stripeLength, imgSize, wheelRadius)/(numLeds-1))
-#define CM_TO_PX(cm)											_CM_TO_PX(cm, imgSize, bikeInfo.wheelRadius)
-#define PX_PER_LED(numLeds)										_PX_PER_LED(bikeInfo.stripeLength, imgSize, numLeds, bikeInfo.wheelRadius)
-
 
 typedef struct{
 	uint32_t norm;
@@ -19,7 +14,9 @@ typedef struct{
 }Mask;
 
 Mask mask;
-DWORD imgCenter_x, imgCenter_y, imgSize;
+DWORD imgCenter_x, imgCenter_y;
+float pxPerCm;
+float pxPerStripe;
 
 //Aux private function
 void setMask(BMP* bmp, float pixelsPerLED);
@@ -29,7 +26,7 @@ void process(float dangle, BMP* bmp){
 	float a,r;	//angle  (a) and module (r)
 	float cosa,sina;
 	float pixelsPerLED;
-	float edge_px = CM_TO_PX(bikeInfo.edgeRadius);
+	float edge_px = bikeInfo.edgeRadius*pxPerCm;
 	DWORD px,py;
 	Stripes* stripes = &bikeInfo.stripes;
 	Stripe* stripe;
@@ -40,7 +37,7 @@ void process(float dangle, BMP* bmp){
 	    ++s, ++stripe)
 	{
 		//Precalculate:
-		pixelsPerLED = PX_PER_LED(stripe->numLeds);
+		pixelsPerLED = pxPerStripe/stripe->numLeds;
 		a = stripe->angle + dangle;
 		cosa = cos(a);
 		sina = sin(a);
@@ -62,6 +59,8 @@ void process(float dangle, BMP* bmp){
 }
 
 void processConfig(BMP* bmp){
+	DWORD imgSize;
+
 	imgCenter_x = bmp->arrayInfo.Width/2;
 	imgCenter_y = bmp->arrayInfo.Height/2;
 
@@ -69,6 +68,9 @@ void processConfig(BMP* bmp){
 		imgSize = bmp->arrayInfo.Width;
 	else
 		imgSize = bmp->arrayInfo.Height;
+
+	pxPerCm = ((float)(imgSize))/(2.0*bikeInfo.wheelRadius);
+	pxPerStripe = bikeInfo.stripeLength*pxPerCm;
 }
 
 void setMask(BMP* bmp, float pixelsPerLED){
