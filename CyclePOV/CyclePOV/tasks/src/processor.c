@@ -41,9 +41,7 @@ void process(float dangle, BMP* bmp){
 	{
 		//Precalculate:
 		pixelsPerLED = PX_PER_LED(stripe->numLeds);
-		//stripe angle in [0,2*PI)
 		a = stripe->angle + dangle;
-		a = a - PI2*floor(stripe->angle/PI2);
 		cosa = cos(a);
 		sina = sin(a);
 
