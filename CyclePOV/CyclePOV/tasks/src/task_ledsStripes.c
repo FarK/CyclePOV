@@ -6,6 +6,7 @@
 #include "bikeInfo.h"
 #include "defines.h"
 #include "bsp_sensor.h"
+#include "bsp_timer.h"
 #include "bsp_ledsStripes.h"
 #include "bsp_leds.h"
 #include <tgmath.h>
@@ -15,6 +16,9 @@
 #define MAX_ANGLE	2.0*M_PI*1.2
 
 SemaphoreHandle_t txCompleteSemph;
+
+uint32_t time[10];
+volatile float usTime;
 
 //Blocking send
 void sendStripes();
@@ -31,13 +35,17 @@ void task_ledsStripes(void* args){
 
 	bikeInfo_init();	//Setup bike info first
 	bsp_sensor_init();
+	bsp_timer_init();
 	bsp_ledsStripes_init();
 	turnOffStripes();
 
 	while(1){
 		if(bikeInfo.period < MIN_PERIOD){
 			bsp_leds_off();
+			time[0] = bsp_timer_getTime();
 			displayAnimation();
+			time[7] = bsp_timer_getTime();
+			time[8] = bsp_timer_getTime();
 		}
 		else{
 			turnOffStripes();
@@ -59,6 +67,7 @@ void displayAnimation(){
 		processConfig(frame);
 		previousFrame = frame;
 	}
+	time[1] = bsp_timer_getTime();
 
 	//Reset angles
 	previusAngle = -1.0;
@@ -66,6 +75,7 @@ void displayAnimation(){
 
 	//Process and send all frame stripes
 	while(angle > previusAngle){
+		time[2] = bsp_timer_getTime();
 		previusAngle = angle;
 		angle = bsp_sensor_getAngle();
 
@@ -75,14 +85,19 @@ void displayAnimation(){
 			break;
 		}
 		else{
+			time[3] = bsp_timer_getTime();
 			process(angle, frame);
+			time[4] = bsp_timer_getTime();
 			sendStripes();
+			time[5] = bsp_timer_getTime();
 		}
+		time[6] = bsp_timer_getTime();
 	}
 }
 
 void sendStripes(){
 	bsp_ledsStripes_sendStripes();
+	time[9] = bsp_timer_getTime();
 	//Wait for transmission complete
 	xSemaphoreTake(txCompleteSemph, portMAX_DELAY);
 }
