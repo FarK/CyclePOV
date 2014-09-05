@@ -11,8 +11,9 @@
 #include "bsp_leds.h"
 #include <stdint.h>
 
-#define MIN_PERIOD	10e3
-#define MAX_ANGLE	2.0*M_PI*1.2
+#define MAX_PERIOD_MS	1500
+#define MAX_PERIOD		TIM_US_TO_TICKS(MAX_PERIOD_MS*1000)
+#define MAX_ANGLE		2.0*M_PI*1.2
 
 SemaphoreHandle_t txCompleteSemph;
 
@@ -39,7 +40,7 @@ void task_ledsStripes(void* args){
 	turnOffStripes();
 
 	while(1){
-		if(bikeInfo.period < MIN_PERIOD){
+		if(bikeInfo.period < MAX_PERIOD){
 			bsp_leds_off();
 			time[0] = bsp_timer_getTime();
 			displayAnimation();
