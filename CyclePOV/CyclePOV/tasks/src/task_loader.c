@@ -13,18 +13,7 @@ void task_loader(void* args){
 	BMP_Frame* frameToLoad;
 
 	//Init double buffer and animation
-	animation.timesCount = 0;
-	animation.timesCount = 0;
 	DB_init();
-	animation.currentFrame = &animation.frames[0];
-	animation.currentBMP = doubleBuffer.toRead;
-	frameToLoad = &animation.frames[0];
-	animation.timesCount = 0;
-	animation.currentFrame->times = 0;	//Force DB_getBMPToRead() on init in getNextFrame()
-
-	//End of init. LedsStripe can continue now
-	BaseType_t error = xSemaphoreGive(endLoaderInitSemph);
-	ASSERT(error);
 
 	//Mount SD
 	while(f_mount(&fatFs, "", 1) != FR_OK);
@@ -33,6 +22,14 @@ void task_loader(void* args){
 	CHECK_ERROR(f_open(&file, INDEX_FILE, FA_READ) != FR_OK);
 	parseIndex(&file);
 
+	animation.currentFrame = &animation.frames[animation.nFrames-1];
+	animation.currentBMP = doubleBuffer.toRead;
+	frameToLoad = &animation.frames[0];
+	animation.timesCount = animation.currentFrame->times;
+
+	//End of init. LedsStripe can continue now
+	BaseType_t error = xSemaphoreGive(endLoaderInitSemph);
+	ASSERT(error);
 
 	//Task start
 	while(1){
@@ -55,7 +52,7 @@ void task_loader(void* args){
 BMP* getNextFrame(){
 	++animation.timesCount;
 
-	if(animation.timesCount >= animation.currentFrame->times){
+	if(animation.timesCount > animation.currentFrame->times){
 		animation.currentBMP = DB_getBMPToRead();
 		animation.currentFrame = incrementedFrame(animation.currentFrame);
 		animation.timesCount = 0;
