@@ -28,13 +28,12 @@ void process(float dangle, BMP* bmp){
 	float pixelsPerLED;
 	float edge_px = bikeInfo.edgeRadius*pxPerCm;
 	DWORD px,py;
-	Stripes* stripes = &bikeInfo.stripes;
 	Stripe* stripe;
-	uint8_t s,l;
+	uint8_t l;
 
-	for(s=0, stripe=&stripes->stripes[0] ;
-	    s<stripes->numStripes            ;
-	    ++s, ++stripe)
+	for(stripe=stripes.starStripe ;
+	    stripe<=stripes.endStripe ;
+	    ++stripe)
 	{
 		//Precalculate:
 		pixelsPerLED = pxPerStripe/(stripe->numLeds-1);
@@ -44,7 +43,7 @@ void process(float dangle, BMP* bmp){
 
 		setMask(bmp, pixelsPerLED);
 
-		for(l=0 ; l<stripe->numLeds ; ++l){
+		for(l=stripe->startLed ; l<=stripe->endLed ; ++l){
 			//Led module
 			r = edge_px + l*pixelsPerLED;
 

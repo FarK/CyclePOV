@@ -36,7 +36,7 @@ void bsp_dma_init(){
 	DMA_Init(DMA1_Stream4, &DMA_InitStructure);
 
 	//Set buffer sizes
-	dmaBuffer.stripesBuffSize = bikeInfo.numLeds*sizeof(LED)*SPI_BYTE_PER_BYTE;
+	dmaBuffer.stripesBuffSize = stripes.numLeds*sizeof(LED)*SPI_BYTE_PER_BYTE;
 	dmaBuffer.buffSize = dmaBuffer.stripesBuffSize + sizeof(uint8_t) + sizeof(uint16_t);
 }
 
@@ -64,17 +64,16 @@ void bsp_dma_clearBuffer(){
 
 void bsp_dma_stripesToDMABuff(){
 	uint32_t numByte = 0;
-	unsigned int s,l,color;
+	unsigned int l,color;
 	uint8_t byte;
 	uint8_t* toDMABuffer_p;
-	Stripes* stripes = &bikeInfo.stripes;
 	Stripe* stripe;
 
-	for(s=0, stripe=&stripes->stripes[0];
-		s<stripes->numStripes;
-		++s, ++stripe)
+	for(stripe=stripes.starStripe ;
+		stripe<=stripes.endStripe ;
+		++stripe)
 	{
-		for(l=0 ; l<stripe->numLeds ; ++l){
+		for(l=stripe->startLed ; l<=stripe->endLed ; ++l){
 			for(color=0 ; color<3 ; ++color){
 				byte = stripe->leds[l][color];
 				toDMABuffer_p = toDMABuffer[byte];

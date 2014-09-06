@@ -9,6 +9,7 @@
 #define MAX_NUM_LEDS		36		//Max number of LEDs in the stripe
 #define MIN_NUM_LEDS		14		//Min number of LEDs in the stripe
 #define MAX_NUM_STRIPES		8		//Max number of LEDs stripes
+#define SENSOR_ANGLE		25.0/180.0*PI	//Angle between hall sensor and first stripe
 
 typedef uint8_t LED[3];
 
@@ -16,26 +17,31 @@ typedef struct{
 	LED leds[MAX_NUM_LEDS];
 	uint8_t numLeds;
 	float angle;	//Stripe angle in rad
+	//Indexes to fix broken leds and displaced stripes
+	uint8_t startLed;
+	uint8_t endLed;
 }Stripe;
 
 typedef struct{
 	Stripe stripes[MAX_NUM_STRIPES];
 	uint8_t numStripes;
+	uint16_t numLeds;
+	//Pointers to swap stripes
+	Stripe* starStripe;
+	Stripe* endStripe;
 }Stripes;
 
 typedef struct{
 	float wheelRadius;
 	float edgeRadius;
 	float stripeLength;
-	uint16_t numLeds;
 
 	uint32_t period;
 	float velocity;
-
-	Stripes stripes;
 }BikeInfo;
 
 extern BikeInfo bikeInfo;
+extern Stripes stripes;
 
 void bikeInfo_init();
 
