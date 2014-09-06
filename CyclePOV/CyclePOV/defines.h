@@ -9,6 +9,10 @@
 #define MS_TO_TICKS(ms)	(ms/portTICK_PERIOD_MS)
 #define TICKS_TO_MS(ticks) ((float)ticks*(float)portTICK_PERIOD_MS)
 
+#define TIMER_FREQ 160 //MHz
+#define TIM_TICKS_TO_US(ticks) (ticks/TIMER_FREQ)
+#define TIM_US_TO_TICKS(us) (us*TIMER_FREQ)
+
 
 #define INDEX_FILE	"index.txt"	//Index path for animation
 #define MAX_PATH_LENGTH 50
