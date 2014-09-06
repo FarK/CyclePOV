@@ -113,8 +113,8 @@ void convolution(DWORD cx, DWORD cy, LED* led, BMP* bmp){
 		}
 	}
 
-	//Normalize. Note: RGB is changed to GRB
+	//Normalize. Note: RGB is changed to BGR
 	(*led)[1] = auxLED[0]/mask.norm;
-	(*led)[0] = auxLED[1]/mask.norm;
-	(*led)[2] = auxLED[2]/mask.norm;
+	(*led)[2] = auxLED[1]/mask.norm;
+	(*led)[0] = auxLED[2]/mask.norm;
 }
