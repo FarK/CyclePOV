@@ -10,11 +10,14 @@
 #include "bsp_ledsStripes.h"
 #include "bsp_leds.h"
 #include "bsp_switches.h"
+#include "bsp_userButton.h"
 #include <stdint.h>
 
 #define MAX_PERIOD_MS	1500
 #define MAX_PERIOD		TIM_US_TO_TICKS(MAX_PERIOD_MS*1000)
 #define MAX_ANGLE		2.0*M_PI*1.2
+
+DisplayState displayState = ANIMATION;
 
 SemaphoreHandle_t txCompleteSemph;
 
@@ -29,6 +32,8 @@ void turnOffStripes();
 void turnOnStripes();
 //Gets a frame, process it, and sends stripes
 void displayAnimation();
+//Angular resolution test
+void displayAngularResTest();
 
 void task_ledsStripes(void* args){
 	//Wait for loader task initialization
@@ -38,6 +43,7 @@ void task_ledsStripes(void* args){
 
 	bikeInfo_init();	//Setup bike info first
 	bsp_switches_init();
+	bsp_userButton_init();
 	bsp_sensor_init();
 	bsp_timer_init();
 	bsp_ledsStripes_init();
@@ -46,10 +52,19 @@ void task_ledsStripes(void* args){
 	while(1){
 		if(bikeInfo.period < MAX_PERIOD){
 			bsp_leds_off();
-			time[0] = bsp_timer_getTime();
-			displayAnimation();
-			time[7] = bsp_timer_getTime();
-			time[8] = bsp_timer_getTime();
+
+			switch(displayState){
+				case ANIMATION:
+					time[0] = bsp_timer_getTime();
+					displayAnimation();
+					time[7] = bsp_timer_getTime();
+					time[8] = bsp_timer_getTime();
+				break;
+
+				case ANGULAR_RES_TEST:
+					displayAngularResTest();
+				break;
+			}
 		}
 		else{
 			turnOffStripes();
@@ -96,6 +111,18 @@ void displayAnimation(){
 			time[5] = bsp_timer_getTime();
 		}
 		time[6] = bsp_timer_getTime();
+	}
+}
+
+void displayAngularResTest(){
+	static float angle;
+
+	turnOnStripes();
+	turnOffStripes();
+
+	angle = bsp_sensor_getAngle();
+	if(angle > MAX_ANGLE){
+		bikeInfo.period = UINT32_MAX;	//The period is infinite
 	}
 }
 
@@ -149,4 +176,8 @@ void bsp_switchesIRQ(uint8_t sw1, uint8_t sw2){
 			stripes.endStripe  = &stripes.stripes[7];
 		break;
 	}
+}
+
+void bsp_userButtonIRQ(){
+	displayState = !displayState;
 }
