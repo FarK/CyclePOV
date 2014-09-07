@@ -2,6 +2,6 @@
 #define BSP_USERBUTTON_H_
 
 void bsp_userButton_init();
-void ISR_ledsButton() __attribute__((weak));
+void bsp_userButtonIRQ() __attribute__((weak));
 
 #endif /* BSP_USERBUTTON_H_ */

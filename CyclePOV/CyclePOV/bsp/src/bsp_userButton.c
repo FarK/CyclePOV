@@ -7,6 +7,6 @@ void bsp_userButton_init(){
 }
 
 void EXTI0_IRQHandler(){
-	ISR_ledsButton();
+	bsp_userButtonIRQ();
 	EXTI_ClearITPendingBit(EXTI_Line0);
 }
