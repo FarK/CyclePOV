@@ -5,3 +5,15 @@ CyclePOV/CyclePOV/Release
 CyclePOV/CyclePOV/.settings
 CyclePOV/.metadata
 toDMABuffer
+
+#LATEX FILES
+latexCompilationFiles
+*.log
+*.aux
+*.pdf
+*.dvi
+*.toc
+*.out
+*.bbl
+*.blg
+Doc/*.pdf

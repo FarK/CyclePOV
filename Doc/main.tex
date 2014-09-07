@@ -1,0 +1,34 @@
+\documentclass[pdftex,a4paper,12pt]{report}
+\usepackage{pfc}
+
+%Definiciones para la portada
+\def \Universidad	{Universidad de Sevilla}
+\def \Facultad		{Escuela Técnica Superior De Ingeniería Informática}
+\def \Titulacion	{Ingeniería Informática}
+\def \Departamento	{Arquitectura y Tecnología de Computadores}
+\def \Titulo		{CyclePOV}
+\def \Autor		{Carlos Falgueras García}
+\def \Tutor		{Claudio Amaya Rodríguez}
+
+\begin{document}
+% PORTADA
+\subimport{portada/}{portada}
+\addtocounter{page}{1} % Contamos la página de portada
+
+% ÍNDICE
+\tableofcontents
+\addcontentsline{toc}{part}{Índice}
+\thispagestyle{empty} %Eliminamos la cabecera y la enumeración del índice
+
+% PARTES
+\subimport{introduccion/}{introduccion}
+\subimport{hardware/}{hardware}
+\subimport{software/}{software}
+\subimport{conclusiones/}{conclusiones}
+\subimport{bibliografia/}{bibliografia}
+\subimport{anexos/}{anexos}
+
+%TODOS
+\mypart{TODOS}
+\listoftodos
+\end{document}

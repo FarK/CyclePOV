@@ -1,0 +1,35 @@
+\newdateformat{titledate}{\monthname[\THEMONTH] de \THEYEAR}
+
+\begin{titlepage}
+\begin{figure}[t]
+	\centering
+	\includegraphics[keepaspectratio, width=120px]{img/logoUS.pdf}
+\end{figure}
+
+\begin{center}
+\large
+
+\bigskip
+{\MakeUppercase{\Facultad}}
+\bigskip\\
+\MakeUppercase{\Titulacion}
+\vfill
+{\bfseries\Large \Titulo}
+\vfill
+\textbf{Realizado por}\\
+\Autor
+\bigskip\\
+\textbf{Dirigido por}\\
+\Tutor
+\bigskip\\
+\textbf{Departamento}\\
+\Departamento
+\end{center}
+
+%Fecha
+\vfill
+\begin{flushright}
+	Sevilla, \titledate\today
+\end{flushright}
+
+\end{titlepage}
