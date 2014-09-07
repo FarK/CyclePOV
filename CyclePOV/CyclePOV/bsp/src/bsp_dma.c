@@ -62,6 +62,24 @@ void bsp_dma_clearBuffer(){
 	dmaBuffer.tail = 0;
 }
 
+void bsp_dma_setBuffer(){
+	unsigned int i;
+
+	dmaBuffer.head = 0;
+
+	// 0 is codified as 100 and 1 as 110
+	// 0x92 = 0b 110 110 11
+	// 0x49 = 0b 0 110 110 1
+	// 0x24 = 0b 10 110 110
+	for (i = 0; i < dmaBuffer.stripesBuffSize; i+=3) {
+		dmaBuffer.stripes[i + 0] = 0xDB;
+		dmaBuffer.stripes[i + 1] = 0x6D;
+		dmaBuffer.stripes[i + 2] = 0xB6;
+	}
+
+	dmaBuffer.tail = 0;
+}
+
 void bsp_dma_stripesToDMABuff(){
 	uint32_t numByte = 0;
 	unsigned int l,color;

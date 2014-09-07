@@ -22,3 +22,8 @@ void bsp_ledsStripes_setOff(){
 	bsp_dma_clearBuffer();
 	bsp_dma_enable();
 }
+
+void bsp_ledsStripes_setOn(){
+	bsp_dma_setBuffer();
+	bsp_dma_enable();
+}

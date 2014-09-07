@@ -25,6 +25,8 @@ volatile float usTime;
 void sendStripes();
 //Turn off all LEDs of stripes. Blocking send
 void turnOffStripes();
+//Turn on (white) all LEDs of stripes. Blocking send
+void turnOnStripes();
 //Gets a frame, process it, and sends stripes
 void displayAnimation();
 
@@ -106,6 +108,12 @@ void sendStripes(){
 
 void turnOffStripes(){
 	bsp_ledsStripes_setOff();
+	//Wait for transmission complete
+	xSemaphoreTake(txCompleteSemph, portMAX_DELAY);
+}
+
+void turnOnStripes(){
+	bsp_ledsStripes_setOn();
 	//Wait for transmission complete
 	xSemaphoreTake(txCompleteSemph, portMAX_DELAY);
 }

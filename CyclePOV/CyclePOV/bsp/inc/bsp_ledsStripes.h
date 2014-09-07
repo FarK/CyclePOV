@@ -10,6 +10,7 @@
 void bsp_ledsStripes_init();
 void bsp_ledsStripes_sendStripes();
 void bsp_ledsStripes_setOff();
+void bsp_ledsStripes_setOn();
 void bsp_ledsStripes_sendCompleteIRQ() __attribute__ ((weak));
 
 #endif /* BSP_LEDSSTRIPES_H_ */

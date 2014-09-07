@@ -25,6 +25,7 @@ typedef struct{
 void bsp_dma_init();
 void bsp_dma_stripesToDMABuff();
 void bsp_dma_clearBuffer();
+void bsp_dma_setBuffer();
 void bsp_dma_enable();
 void bsp_dma_disable();
 void bsp_dma_TxCompleteIRQ() __attribute__((weak));
