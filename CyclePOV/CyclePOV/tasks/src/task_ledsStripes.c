@@ -9,6 +9,7 @@
 #include "bsp_timer.h"
 #include "bsp_ledsStripes.h"
 #include "bsp_leds.h"
+#include "bsp_switches.h"
 #include <stdint.h>
 
 #define MAX_PERIOD_MS	1500
@@ -34,6 +35,7 @@ void task_ledsStripes(void* args){
 	txCompleteSemph = xSemaphoreCreateBinary();
 
 	bikeInfo_init();	//Setup bike info first
+	bsp_switches_init();
 	bsp_sensor_init();
 	bsp_timer_init();
 	bsp_ledsStripes_init();
@@ -113,4 +115,30 @@ void bsp_ledsStripes_sendCompleteIRQ(){
 	//Indicate the end of transmission
 	xSemaphoreGiveFromISR(txCompleteSemph, &higherPriorityTaskWoken);
 	portYIELD_FROM_ISR(higherPriorityTaskWoken);
+}
+
+void bsp_switchesIRQ(uint8_t sw1, uint8_t sw2){
+	SwitchesState switchesState = swXToSwitchState[sw1][sw2];
+
+	switch(switchesState){
+		case FIRST_STRIPES:
+			stripes.starStripe = &stripes.stripes[0];
+			stripes.endStripe  = &stripes.stripes[3];
+		break;
+
+		case LAST_STRIPES:
+			stripes.starStripe = &stripes.stripes[4];
+			stripes.endStripe  = &stripes.stripes[7];
+		break;
+
+		case BOTH_STRIPES:
+			stripes.starStripe = &stripes.stripes[0];
+			stripes.endStripe  = &stripes.stripes[7];
+		break;
+
+		case INVALID:
+			stripes.starStripe = &stripes.stripes[4];
+			stripes.endStripe  = &stripes.stripes[7];
+		break;
+	}
 }
